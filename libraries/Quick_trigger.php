@@ -25,16 +25,19 @@ class Quick_trigger{
         $plugins = scandir(APPPATH.'/'.$this->plugins_path.'/'.$group);
 
         if ($plugins) {
+            $results = array();
             foreach ($plugins as $plugin) {
                 if ($plugin !== '.' && $plugin !== '..') {
                     require_once(APPPATH.'/'.$this->plugins_path.'/'.$group.'/'.$plugin);
                     $fqn = str_replace('.php','',str_replace(' ', '', ucwords(str_replace('_', ' ', $plugin))));
                     $class = new $fqn();
                     if (method_exists($class,$event)) {
-                        call_user_func(array($class, $event),$data);
+                        $results[] = call_user_func(array($class, $event),$data);
                     }
                 }
             }
+
+            return $results;
         }
     }
 
