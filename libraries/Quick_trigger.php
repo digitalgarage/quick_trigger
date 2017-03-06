@@ -22,6 +22,9 @@ class Quick_trigger{
     }
 
     public function trigger($group='', $event='', $data=array()){
+        if (!file_exists(APPPATH.'/'.$this->plugins_path.'/'.$group)) {
+            return;
+        }
         $plugins = scandir(APPPATH.'/'.$this->plugins_path.'/'.$group);
 
         if ($plugins) {
